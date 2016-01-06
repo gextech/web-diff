@@ -8,15 +8,27 @@ if (!input) {
 }
 
 var fs = require('fs'),
-    jsyaml = require('js-yaml');
+    path = require('path'),
+    jsyaml = require('js-yaml'),
+    spawn = require('child_process').spawn;
 
 var buffer = fs.readFileSync(input).toString();
 
 var sequence = jsyaml.safeLoad(buffer, { filename: input });
 
-var runner = require('../lib/runner');
+var builder = require('../lib/builder');
 
-runner.start(sequence, function(statusCode) {
-  console.log('END');
-  die(statusCode);
+var jsonFile = path.join(process.cwd(), 'data.js');
+
+fs.writeFileSync(jsonFile, 'module.exports = ' + JSON.stringify(builder(sequence)) + ';');
+
+var child = spawn('casperjs', [path.join(__dirname, '../lib/bootstrap.js')]);
+
+child.stdout.on('data', function(data) {
+  console.log('STDOUT', data.toString());
+});
+
+child.on('close', function(code) {
+  console.log('CLOSE', code);
+  die(code);
 });

@@ -6,7 +6,6 @@
   },
   "dependencies": {
     "async-parts": "^0.2.2",
-    "casperjs": "^1.1.0-beta3",
     "js-yaml": "^3.4.6"
   }
 }
