@@ -1,6 +1,9 @@
 {
   "name": "diff-sites",
   "version": "0.0.0",
+  "bin": {
+    "diff-sites": "./bin/diff-sites"
+  },
   "dependencies": {
     "casperjs": "^1.1.0-beta3",
     "js-yaml": "^3.4.6"

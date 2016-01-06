@@ -1,0 +1,23 @@
+#!/usr/bin/env node
+
+var input = process.argv.slice(2)[0],
+    die = process.exit.bind(process);
+
+if (!input) {
+  throw new Error('missing input');
+}
+
+var fs = require('fs'),
+    jsyaml = require('js-yaml');
+
+var buffer = fs.readFileSync(input).toString();
+
+var sequence = jsyaml.load(buffer);
+
+var runner = require('./lib/runner');
+
+runner.start(sequence, function(statusCode) {
+  console.log('END');
+
+  die(statusCode);
+});
