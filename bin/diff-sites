@@ -12,12 +12,11 @@ var fs = require('fs'),
 
 var buffer = fs.readFileSync(input).toString();
 
-var sequence = jsyaml.load(buffer);
+var sequence = jsyaml.safeLoad(buffer, { filename: input });
 
 var runner = require('../lib/runner');
 
 runner.start(sequence, function(statusCode) {
   console.log('END');
-
   die(statusCode);
 });
