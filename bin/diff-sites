@@ -14,7 +14,7 @@ var buffer = fs.readFileSync(input).toString();
 
 var sequence = jsyaml.load(buffer);
 
-var runner = require('./lib/runner');
+var runner = require('../lib/runner');
 
 runner.start(sequence, function(statusCode) {
   console.log('END');
