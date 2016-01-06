@@ -1,0 +1,8 @@
+Compare dev with angel:
+  dev.mediotiempo.com:8080:
+    - set:
+      - coso
+      - valor con espacios
+    - get: body
+  angel.mediotiempo.com:9090:
+    - get: body
