@@ -5,7 +5,7 @@ var input = process.argv.slice(2)[0],
     die = process.exit.bind(process);
 
 if (!input) {
-  console.log('usage: diff-sites FILE');
+  console.log('usage: diff-sites FILE [OUTPUT]');
   die(1);
 }
 
