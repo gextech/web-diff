@@ -20,9 +20,15 @@ var builder = require('../lib/builder');
 
 var jsonFile = path.join(process.cwd(), 'data.js');
 
-fs.writeFileSync(jsonFile, 'module.exports = ' + JSON.stringify(builder(sequence)) + ';');
+fs.writeFileSync(jsonFile, 'module.exports = ' + JSON.stringify({
+  sequence: builder(sequence),
+  libdir: path.join(__dirname, '../lib')
+}) + ';');
 
-var child = spawn('casperjs', [path.join(__dirname, '../lib/bootstrap.js')]);
+var child = spawn('casperjs', [
+  path.join(__dirname, '../lib/bootstrap.js'),
+  '--ignore-ssl-errors=true'
+]);
 
 child.stdout.on('data', function(data) {
   process.stdout.write(data.toString());
