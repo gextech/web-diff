@@ -1,0 +1,17 @@
+<script src="//cdn.polyfill.io/v1/polyfill.min.js?features=es5,bind,fetch,promise"></script>
+<script>
+
+console.log('READY');
+
+console.log('- ES5', [
+  typeof Function.prototype.bind,
+  typeof Array.prototype.map,
+  typeof Array.isArray
+]);
+
+console.log('- fetch', typeof fetch);
+console.log('- Promise', typeof Promise);
+
+console.log('END');
+
+</script>

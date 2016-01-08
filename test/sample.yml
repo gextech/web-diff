@@ -1,0 +1,3 @@
+Test runtime:
+  localhost:9001:
+    - get: body
