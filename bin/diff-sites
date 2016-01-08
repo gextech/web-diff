@@ -29,8 +29,9 @@ process.env.DIFF_LIB_DIR = path.join(__dirname, '../lib/casper');
 
 var args = [];
 
-// args.push('test');
 args.push(path.join(__dirname, '../lib/casper/bootstrap.js'));
+args.push('--ignore-ssl-errors=true');
+args.push('--ssl-protocol=any');
 
 var child = spawn('casperjs', args);
 
