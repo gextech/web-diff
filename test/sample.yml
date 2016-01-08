@@ -1,5 +1,5 @@
 Test runtime:
-  http://localhost:9001/a.html:
+  localhost:9001/a.html:
     - get: '#output'
-  http://localhost:9001/b.html:
+  localhost:9001/b.html:
     - get: '#output'
