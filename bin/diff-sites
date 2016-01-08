@@ -52,11 +52,9 @@ var child = spawn('casperjs', [
   '--ssl-protocol=any'
 ]);
 
-child.stdout.on('data', function(data) {
-  console.log(data.toString());
-});
+child.stdout.pipe(process.stdout);
 
-child.on('close', function(code) {
+child.on('close', function(statusCode) {
   var diff = (new Date()) - start;
 
   if (diff > 1000) {
@@ -65,7 +63,7 @@ child.on('close', function(code) {
     diff = diff + 'ms';
   }
 
-  console.log('Done in ' + diff);
+  console.log('Done with' + (statusCode ? '' : 'out') + ' errors in ' + diff);
 
-  die(code);
+  die(statusCode);
 });
