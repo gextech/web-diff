@@ -1,11 +1,11 @@
 Test runtime:
   http://localhost:3000/league/calendar/:
     - wait: 1000
-    - get: .name-team
+    - get: /html/body/div/div[2]/div[1]/div[2]/div[2]/div[1]/span
     - screen: before
     - set: /html/body/div/div[1]/div[1]/select 3
     - wait: 1000
-    - get: .name-team
+    - get: /html/body/div/div[2]/div[1]/div[2]/div[2]/div[1]/span
     - screen: after
   # localhost:9001:
   #   - get: body
