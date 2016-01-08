@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var input = process.argv.slice(2)[0],
+    dest = process.argv.slice(2)[1],
     die = process.exit.bind(process);
 
 if (!input) {
@@ -19,13 +20,14 @@ var sequence = jsyaml.safeLoad(buffer, { filename: input });
 
 var builder = require('../lib/builder');
 
-var jsonId = path.basename(input).replace(/\.\w+$/, '') + +(new Date()),
-    jsonFile = path.join(process.cwd(), 'generated/' + jsonId + '.json');
+var jsonId = path.basename(input).replace(/\.\w+$/, ''),
+    jsonFile = path.join(process.cwd(), dest || 'generated', jsonId, 'index.json');
 
 fs.outputJsonSync(jsonFile, builder(sequence));
 
 process.env.DIFF_JSON = jsonFile;
 process.env.DIFF_LIB_DIR = path.join(__dirname, '../lib/casper');
+process.env.DIFF_SCREEN_DIR = path.join(path.dirname(jsonFile), 'screenshots');
 
 var args = [];
 
