@@ -16,7 +16,12 @@ var fs = require('fs-extra'),
 
 var buffer = fs.readFileSync(input).toString();
 
-var sequence = jsyaml.safeLoad(buffer, { filename: input });
+try {
+  var sequence = jsyaml.safeLoad(buffer, { filename: input });
+} catch (e) {
+  console.log(e.message || e.toString());
+  die(1);
+}
 
 var builder = require('../lib/builder');
 
