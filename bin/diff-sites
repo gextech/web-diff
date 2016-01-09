@@ -50,6 +50,16 @@ var child = spawn('casperjs', [
   '--ssl-protocol=any'
 ]);
 
-child.stdout.pipe(process.stdout);
+var err;
 
-child.on('close', die);
+child.stdout.on('data', function(data) {
+  if (/^not ok\b/.test(data)) {
+    err = 1;
+  }
+
+  process.stdout.write(data);
+});
+
+child.on('close', function(statusCode) {
+  die(statusCode || err);
+});
