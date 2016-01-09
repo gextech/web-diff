@@ -40,7 +40,7 @@ fs.outputJsonSync(jsonFile, builder(sequence));
 process.env.DIFF_JSON = jsonFile;
 process.env.DIFF_LIB_DIR = path.join(__dirname, '../lib/casper');
 process.env.DIFF_SCREEN_DIR = path.join(destDir, 'screenshots');
-process.env.DIFF_LOG_LEVEL = argv.log === true ? 'info' : argv.log || 'error';
+process.env.DIFF_LOG_LEVEL = argv.log === true ? 'info' : argv.log || '';
 process.env.DIFF_LOG_VERBOSE = argv.verbose === true ? true : '';
 process.env.DIFF_USER_AGENT = argv.ua || '';
 
