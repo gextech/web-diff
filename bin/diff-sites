@@ -33,7 +33,7 @@ var destDir = path.join(process.cwd(), dest || 'generated');
 var jsonId = path.basename(input).replace(/\.\w+$/, ''),
     jsonFile = path.join(destDir, jsonId, 'index.json');
 
-console.log('Load ' + input);
+console.log('# Load ' + input);
 
 fs.outputJsonSync(jsonFile, builder(sequence));
 
@@ -44,8 +44,6 @@ process.env.DIFF_LOG_LEVEL = argv.log === true ? 'info' : argv.log || 'error';
 process.env.DIFF_LOG_VERBOSE = argv.verbose === true ? true : '';
 process.env.DIFF_USER_AGENT = argv.ua || '';
 
-var start = new Date();
-
 var child = spawn('casperjs', [
   path.join(__dirname, '../lib/casper/bootstrap.js'),
   '--ignore-ssl-errors=true',
@@ -54,16 +52,4 @@ var child = spawn('casperjs', [
 
 child.stdout.pipe(process.stdout);
 
-child.on('close', function(statusCode) {
-  var diff = (new Date()) - start;
-
-  if (diff > 1000) {
-    diff = (diff / 1000).toFixed() + 's';
-  } else {
-    diff = diff + 'ms';
-  }
-
-  console.log('Done with' + (statusCode ? '' : 'out') + ' errors in ' + diff);
-
-  die(statusCode);
-});
+child.on('close', die);
