@@ -1,13 +1,21 @@
+###
+# calendar of league
+###
+
 Compare PROD with Kaach:
   http://euro.mediotiempo.com/ajax/ajax_jornadas.php?id_torneo=559&jornada=1&id_liga=1:
+    - get: //*[@id="tabla_jornadas_24"]/tbody/tr[1]/td
+    - get: //*[@id="tabla_jornadas_24_datos"]/tbody/tr/td[1]/div
     - get: //*[@id="tabla_jornadas_24_datos"]/tbody/tr/td[2]/a/div/div[2]
     - get: //*[@id="tabla_jornadas_24_datos"]/tbody/tr/td[4]/a/div/div[2]
   angel.mediotiempo.com:3000/league/calendar/:
-    - set: /html/body/div/div[1]/div[1]/select 1
+    - set: /html/body/div/div[1]/div[1]/select | 1
     - wait: 200
-    - set: /html/body/div/div[1]/div[2]/select 0
+    - set: /html/body/div/div[1]/div[2]/select | 0
     - wait: 200
-    - set: /html/body/div/div[1]/div[3]/select 0
+    - set: /html/body/div/div[1]/div[3]/select | 0
     - wait: 200
+    - get: /html/body/div/div[2]/div[1]/div[1]
+    - get: /html/body/div/div[2]/div[1]/div[2]/div[1]/span[1]
     - get: /html/body/div/div[2]/div[1]/div[2]/div[2]/div[1]/span
     - get: /html/body/div/div[2]/div[1]/div[2]/div[2]/div[3]/span
