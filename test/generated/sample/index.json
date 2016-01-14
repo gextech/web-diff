@@ -1,1 +1,0 @@
-[{"description":"Test runtime","sites":[{"url":"localhost:9001/a.html","steps":[{"cmd":"get","args":["#output"]}]},{"url":"localhost:9001/b.html","steps":[{"cmd":"get","args":["#output"]}]}]}]
