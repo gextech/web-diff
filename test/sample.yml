@@ -1,5 +1,0 @@
-Test runtime:
-  localhost:9001/a.html:
-    - get: '#output'
-  localhost:9001/b.html:
-    - get: '#output'
