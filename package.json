@@ -7,6 +7,7 @@
   "dependencies": {
     "fs-extra": "^0.26.4",
     "js-yaml": "^3.4.6",
-    "minimist": "^1.2.0"
+    "minimist": "^1.2.0",
+    "temp-write": "^2.1.0"
   }
 }

@@ -2,40 +2,41 @@
 
 var argv = require('minimist')(process.argv.slice(2));
 
-var input = argv._[0],
-    dest = argv._[1];
+var files = argv._,
+    dest = argv.dest || 'generated';
 
 var die = process.exit.bind(process);
 
-if (!input) {
-  console.log('usage: diff-sites FILE [OUTPUT]');
+if (!files.length) {
+  console.log('usage: diff-sites FILE1 [FILE2] [...] [OPTIONS]');
   die(1);
 }
 
 var fs = require('fs-extra'),
     path = require('path'),
+    temp = require('temp-write'),
     jsyaml = require('js-yaml'),
     spawn = require('child_process').spawn;
 
-var buffer = fs.readFileSync(input).toString();
+var buildTests = require('../lib/builder');
 
-try {
-  var sequence = jsyaml.safeLoad(buffer, { filename: input });
-} catch (e) {
-  console.log(e.message || e.toString());
-  die(1);
-}
+console.log('# Loading ' + files.join(', '));
 
-var builder = require('../lib/builder');
+var sequence = files.map(function(file) {
+  var buffer = fs.readFileSync(file).toString();
 
-var destDir = path.join(process.cwd(), dest || 'generated');
+  try {
+    var data = jsyaml.safeLoad(buffer, { filename: file });
+  } catch (e) {
+    console.log(e.message || e.toString());
+    die(1);
+  }
 
-var jsonId = path.basename(input).replace(/\.\w+$/, ''),
-    jsonFile = path.join(destDir, jsonId, 'index.json');
+  return data;
+});
 
-console.log('# Load ' + input);
-
-fs.outputJsonSync(jsonFile, builder(sequence));
+var destDir = path.join(process.cwd(), dest || 'generated'),
+    jsonFile = temp.sync(JSON.stringify(buildTests(sequence)), 'test-' + +(new Date()) + '.json');
 
 process.env.DIFF_JSON = jsonFile;
 process.env.DIFF_LIB_DIR = path.join(__dirname, '../lib/casper');
@@ -59,5 +60,9 @@ child.stdout.on('data', function(data) {
 }).pipe(process.stdout);
 
 child.on('close', function(exitCode) {
+  try {
+    fs.unlinkSync(jsonFile);
+  } catch (e) {}
+
   die(exitCode || err);
 });
